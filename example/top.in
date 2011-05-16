@@ -1,0 +1,13 @@
+<html>
+     <head>
+          <title>{%title%} | My Blog</title>
+     </head>
+
+     <body>
+          <div id="#links">
+               <p>
+                    <span class="previous {%ohidden%}"><a href="http://example.com/blog/post/{%oidx%}">{%otitle%}</a></span>
+                    <span class="current"><a href="http://example.com/blog/post/{%idx%}">{%title%}</a></span>
+                    <span class="next {%nhidden%}"><a href="http://example.com/blog/post/{%nidx%}">{%ntitle%}</a></span>
+               </p>
+          </div>

@@ -1,0 +1,29 @@
+This is just a *hello world* program :
+
+     int main (void)
+     {
+          printf ("Hello world !\n");
+          return 0;
+     }
+
+***NB:** It can be done in other languages like :*
+
+* C++
+          using namespace std;
+
+          int main ()
+          {
+               cout << "Hello world !" << endl;
+               return 0;
+          }
+* Perl
+
+          #!/usr/bin/perl
+          print ("Hello world !\n");
+* Bash
+
+          echo "Hello world !"
+* ...
+
+See you later on [github](https://github.com/linkdd/plstblog).
+
