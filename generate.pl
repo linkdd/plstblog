@@ -9,10 +9,10 @@ if (exists ($ARGV[0]) && -e $ARGV[0])
      print ("Reading ".$ARGV[0]." ...\n");
      %config = &load_configuration ($ARGV[0]);
 }
-elsif ( -e $ENV{HOME}."/.plstblog.conf" )
+elsif ( -e $ENV{HOME}."/.config/plstblog.conf" )
 {
-     print ("Reading ".$ENV{HOME}."/.plstblog.conf ...\n");
-     %config = &load_configuration ($ENV{HOME}."/.plstblog.conf");
+     print ("Reading ".$ENV{HOME}."/.config/plstblog.conf ...\n");
+     %config = &load_configuration ($ENV{HOME}."/.config/plstblog.conf");
 }
 elsif ( -e "./plstblog.conf" )
 {
