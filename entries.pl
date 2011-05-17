@@ -114,12 +114,12 @@ sub generate_html
           # Write output
           if ( ! -e $conf{"localpath"} )
           {
-               mkdir ($conf{"localpath"});
+               mkdir ($conf{"localpath"}) or die $!;
           }
 
           if ( ! -e $conf{"localpath"}."/post" )
           {
-               mkdir ($conf{"localpath"}."/post");
+               mkdir ($conf{"localpath"}."/post") or die $!;
           }
 
           open (OUTPUT, ">".$conf{"localpath"}."/post/$nfo{idx}.html") or die $!;
@@ -139,6 +139,8 @@ sub generate_index
 
      my @output = (&open_template ("tmpl.idx.top"), "<ul>\n");
 
+     @entries = reverse (@entries);
+
      # list entries
      foreach $entry (@entries)
      {
@@ -156,7 +158,7 @@ sub generate_index
      # write output to the file
      if ( ! -e $conf{"localpath"} )
      {
-          mkdir ($conf{"localpath"});
+          mkdir ($conf{"localpath"}) or die $!;
      }
 
      open (INDEX, ">".$conf{localpath}."/index.html") or die $!;
