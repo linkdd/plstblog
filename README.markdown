@@ -24,6 +24,17 @@ The configuration is pretty simple :
 
 The configuration is save in : `$HOME/.plstblog.conf` or `./plstblog.conf`.
 
+### RSS 2.0
+
+If you want generate a RSS 2.0 summary, just add this to your conf :
+
+     rss=yes
+     rss.title=Your RSS title
+     rss.link=http://example.com/
+     rss.lang=en
+     rss.description=Example of RSS summary
+     rss.author=author@example.com
+
 ### Templates
 
 The templates are just HTML files with some special variables which are replaced by the generator.
