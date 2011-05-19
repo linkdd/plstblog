@@ -1,32 +1,32 @@
 #!/usr/bin/perl -w
 
-require "plstblog.pl";
+use strict;
+use PlStBlog;
 
 my %config = ();
 
 if (exists ($ARGV[0]) && -e $ARGV[0])
 {
      print ("Reading ".$ARGV[0]." ...\n");
-     %config = &load_configuration ($ARGV[0]);
+     PlStBlog::Config::load_configuration ($ARGV[0]);
 }
 elsif ( -e $ENV{HOME}."/.config/plstblog.conf" )
 {
      print ("Reading ".$ENV{HOME}."/.config/plstblog.conf ...\n");
-     %config = &load_configuration ($ENV{HOME}."/.config/plstblog.conf");
+     PlStBlog::Config::load_configuration ($ENV{HOME}."/.config/plstblog.conf");
 }
 elsif ( -e "./plstblog.conf" )
 {
      print ("Reading ./plstblog.conf ...\n");
-     %config = &load_configuration ("./plstblog.conf");
+     PlStBlog::Config::load_configuration ("./plstblog.conf");
 }
 else
 {
      die "No configuration found.\n";
 }
 
-&set_conf (%config);
+my @entries = PlStBlog::Entries::get_entries ();
 
-my @entries = &get_entries ();
-
-&generate_html (@entries);
-&generate_index (@entries);
+PlStBlog::Entries::generate_html (@entries);
+PlStBlog::Entries::generate_index (@entries);
+PlStBlog::RSS::generate_rss (@entries);

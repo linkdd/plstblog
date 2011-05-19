@@ -1,19 +1,15 @@
 #!/usr/bin/perl -w
 
+package PlStBlog::Entries;
+use strict;
+
 use POSIX qw/strftime/;
-
-my %conf;
-
-sub set_conf
-{
-     %conf = @_;
-}
 
 sub open_template
 {
-     ($tmpl) = @_;
+     my ($tmpl) = @_;
 
-     open (FILEIN, "<".$conf{$tmpl}) or die $!;
+     open (FILEIN, "<".$PlStBlog::Config::conf{$tmpl}) or die "Error: Can't read ".$PlStBlog::Config::conf{$tmpl}.": $!";
      my @ret = <FILEIN>;
      close (FILEIN);
 
@@ -24,7 +20,7 @@ sub get_entries
 {
      my @entries = ();
 
-     opendir (DIR, $conf{localposts}) or die $!;
+     opendir (DIR, $PlStBlog::Config::conf{localposts}) or die "Error: Can't read directory ".$PlStBlog::Config::conf{localposts}.": $!";
 
      while (my $file = readdir (DIR))
      {
@@ -39,7 +35,7 @@ sub get_entries
 
 sub generate_html
 {
-     (@entries) = @_;
+     my (@entries) = @_;
 
      for (my $i = 0; $i < @entries; $i++)
      {
@@ -70,14 +66,14 @@ sub generate_html
 
           my @output = &open_template ("tmpl.top");
 
-          open (MARKDOWN, "perl Markdown.pl --html4tags \"".$conf{localposts}."/$file\" |");
+          open (MARKDOWN, "perl Markdown.pl --html4tags \"".$PlStBlog::Config::conf{localposts}."/$file\" |") or die "Error: Can't execute Markdown.pl: $!";
           @output = (@output, <MARKDOWN>);
           close (MARKDOWN);
 
           @output = (@output, &open_template ("tmpl.bot"));
 
           # Replace template variables by their values
-          foreach $line (@output)
+          foreach my $line (@output)
           {
                $line =~ s/{%idx%}/$nfo{idx}/g;
                $line =~ s/{%title%}/$nfo{title}/g;
@@ -112,18 +108,18 @@ sub generate_html
           }
 
           # Write output
-          if ( ! -e $conf{"localpath"} )
+          if ( ! -e $PlStBlog::Config::conf{"localpath"} )
           {
-               mkdir ($conf{"localpath"}) or die $!;
+               mkdir ($PlStBlog::Config::conf{"localpath"}) or die "Error: Can't create directory ".$PlStBlog::Config::conf{localpath}.": $!";
           }
 
-          if ( ! -e $conf{"localpath"}."/post" )
+          if ( ! -e $PlStBlog::Config::conf{"localpath"}."/post" )
           {
-               mkdir ($conf{"localpath"}."/post") or die $!;
+               mkdir ($PlStBlog::Config::conf{"localpath"}."/post") or die "Error: Can't create directory".$PlStBlog::Config::conf{localpath}."/post: $!";
           }
 
-          open (OUTPUT, ">".$conf{"localpath"}."/post/$nfo{idx}.html") or die $!;
-          foreach $line (@output)
+          open (OUTPUT, ">".$PlStBlog::Config::conf{"localpath"}."/post/$nfo{idx}.html") or die "Error: Can't write to ".$PlStBlog::Config::conf{"localpath"}."/post/$nfo{idx}.html: $!";
+          foreach my $line (@output)
           {
                printf (OUTPUT "%s", $line);
           }
@@ -142,27 +138,27 @@ sub generate_index
      @entries = reverse (@entries);
 
      # list entries
-     foreach $entry (@entries)
+     foreach my $entry (@entries)
      {
-          my $date = strftime ($conf{datefmt}, localtime ((stat ($conf{localposts}."/$entry"))[9]));
           my %nfo;
+          $nfo{date} = strftime ($PlStBlog::Config::conf{datefmt}, localtime ((stat ($PlStBlog::Config::conf{localposts}."/$entry"))[9]));
 
           ($nfo{idx}, $nfo{title}) = split (/\./, $entry);
 
-          @output = (@output, "<li><span class=\"link\"><a href=\"".$conf{blogurl}."/post/".$nfo{idx}.".html\">".$nfo{title}."</a></span>".
-                    "<span class=\"date\">Last edition: $date</span></li>\n");
+          @output = (@output, "<li><span class=\"link\"><a href=\"".$PlStBlog::Config::conf{blogurl}."/post/".$nfo{idx}.".html\">".$nfo{title}."</a></span>".
+                    "<span class=\"date\">Last edition: ".$nfo{date}."</span></li>\n");
      }
 
      @output = (@output, "</ul>\n", &open_template ("tmpl.idx.bot"));
 
      # write output to the file
-     if ( ! -e $conf{"localpath"} )
+     if ( ! -e $PlStBlog::Config::conf{"localpath"} )
      {
-          mkdir ($conf{"localpath"}) or die $!;
+          mkdir ($PlStBlog::Config::conf{"localpath"}) or die "Error: Can't create directory ".$PlStBlog::Config::conf{localpath}.": $!";
      }
 
-     open (INDEX, ">".$conf{localpath}."/index.html") or die $!;
-     foreach $line (@output)
+     open (INDEX, ">".$PlStBlog::Config::conf{localpath}."/index.html") or die "Error: Can't write to ".$PlStBlog::Config::conf{localpath}."/index.html: $!";
+     foreach my $line (@output)
      {
           printf (INDEX "%s", $line);
      }
