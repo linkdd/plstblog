@@ -78,6 +78,14 @@ sub generate_html
                $line =~ s/{%idx%}/$nfo{idx}/g;
                $line =~ s/{%title%}/$nfo{title}/g;
 
+               if ($PlStBlog::RSS::have_rss)
+               {
+                    $rsslink = "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$PlStBlog::Config::conf{"rss.title"}."\" href=\"".$PlStBlog::Config::conf{blogurl}."/rss2.xml";
+                    $rssicon = "<a class=\"feed\" href=\"".$PlStBlog::Config::conf{blogurl}."/rss2.xml\">RSS Feeds</a>";
+                    $line =~ s/{%rsslink%}/$rsslink/g;
+                    $line =~ s/{%rssicon%}/$rssicon/g;
+               }
+
                # previous entry
                if ($nfo{old})
                {
@@ -160,6 +168,14 @@ sub generate_index
      open (INDEX, ">".$PlStBlog::Config::conf{localpath}."/index.html") or die "Error: Can't write to ".$PlStBlog::Config::conf{localpath}."/index.html: $!";
      foreach my $line (@output)
      {
+          if ($PlStBlog::RSS::have_rss)
+          {
+               $rsslink = "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$PlStBlog::Config::conf{"rss.title"}."\" href=\"".$PlStBlog::Config::conf{blogurl}."/rss2.xml";
+               $rssicon = "<a class=\"feed\" href=\"".$PlStBlog::Config::conf{blogurl}."/rss2.xml\">RSS Feeds</a>";
+               $line =~ s/{%rsslink%}/$rsslink/g;
+               $line =~ s/{%rssicon%}/$rssicon/g;
+          }
+
           printf (INDEX "%s", $line);
      }
      close (INDEX);

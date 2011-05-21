@@ -5,11 +5,23 @@ use strict;
 
 use POSIX qw/strftime/;
 
+sub have_rss
+{
+     if (exists ($PlStBlog::Config::conf{rss}) and $PlStBlog::Config::conf{rss} = "yes")
+     {
+          return 1;
+     }
+     else
+     {
+          return 0;
+     }
+}
+
 sub generate_rss
 {
      my @entries = reverse (@_);
 
-     if (exists ($PlStBlog::Config::conf{rss}) and $PlStBlog::Config::conf{rss} = "yes")
+     if (&have_rss)
      {
           print ("Generating RSS 2.0...\n");
 
