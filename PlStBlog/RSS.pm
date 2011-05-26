@@ -21,7 +21,7 @@ sub generate_rss
 {
      my @entries = reverse (@_);
 
-     if (&have_rss)
+     if (&have_rss ())
      {
           print ("Generating RSS 2.0...\n");
 

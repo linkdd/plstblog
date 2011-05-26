@@ -39,9 +39,12 @@ If you want generate a RSS 2.0 summary, just add this to your conf :
 
 The templates are just HTML files with some special variables which are replaced by the generator.
 
-***NB:** There is no variables for index templates, they are just HTML files.*
+For all templates, variables are :
 
-For the other templates, variables are :
+* `{%rsslink%}` : Link to the RSS feeds (to put in `<head></head>`).
+* `{%rssicon%}` : Link to the RSS feeds (to put in `<body></body>`).
+
+For articles templates, variables are :
 
 * `{%title%}` : Article's title.
 * `{%idx%}` : Index of the article.
@@ -51,6 +54,7 @@ For the other templates, variables are :
 * `{%oidx%}` : Index of the previous article.
 * `{%ntitle%}` : Title of the next article.
 * `{%nidx%}` : Index of the next article.
+
 
 Exemple of generated index :
 
