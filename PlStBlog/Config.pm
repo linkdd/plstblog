@@ -5,6 +5,17 @@ use strict;
 
 our %conf = ();
 
+sub strip
+{
+     my ($str) = @_;
+
+     $str =~ s/^( +)//g;
+     $str =~ s/( +)$//g;
+     $str =~ s/\n//g;
+
+     return $str;
+}
+
 sub load_configuration
 {
      my ($confpath) = @_;
@@ -18,9 +29,15 @@ sub load_configuration
           next if ($line =~ m/^\n/);
 
           my ($key, $value) = split (/=/, $line);
-          $value =~ s/\n//g;
+
+          # Strip useless spaces
+          $key   = &strip ($key);
+          $value = &strip ($value);
+
           $conf{$key} = $value;
      }
+
+     print (%conf);
 }
 
 1;

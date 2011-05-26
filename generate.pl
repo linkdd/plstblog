@@ -3,8 +3,6 @@
 use strict;
 use PlStBlog;
 
-my %config = ();
-
 if (exists ($ARGV[0]) && -e $ARGV[0])
 {
      print ("Reading ".$ARGV[0]." ...\n");
