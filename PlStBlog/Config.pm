@@ -36,8 +36,6 @@ sub load_configuration
 
           $conf{$key} = $value;
      }
-
-     print (%conf);
 }
 
 1;

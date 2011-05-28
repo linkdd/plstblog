@@ -34,7 +34,7 @@ sub generate_rss
                link           => $PlStBlog::Config::conf{"rss.link"},
                language       => $PlStBlog::Config::conf{"rss.lang"},
                description    => $PlStBlog::Config::conf{"rss.description"},
-               lastBuildDate  => strftime ($PlStBlog::Config::conf{datefmt}, localtime (time)),
+               lastBuildDate  => strftime ("%a, %d %b %Y %H:%M:%S %z", localtime (time)),
                managingEditor => $PlStBlog::Config::conf{"rss.author"},
                webMaster      => $PlStBlog::Config::conf{"rss.author"}
           );
@@ -45,7 +45,7 @@ sub generate_rss
                print ("-- Add entry for: $entry\n");
 
                my %nfo = ();
-               $nfo{date} = strftime ($PlStBlog::Config::conf{datefmt}, localtime ((stat ($PlStBlog::Config::conf{localposts}."/$entry"))[9]));
+               $nfo{date} = strftime ("%a, %d %b %Y %H:%M:%S %z", localtime ((stat ($PlStBlog::Config::conf{localposts}."/$entry"))[9]));
                ($nfo{idx}, $nfo{title}) = split (/\./, $entry);
 
                open (MARKDOWN, "perl Markdown.pl --html4tags \"".$PlStBlog::Config::conf{localposts}."/$entry\" |") or die "Error: Can't execute Markdown.pl: $!";
