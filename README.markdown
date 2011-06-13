@@ -3,6 +3,12 @@ It is released under the BSD license.
 
 Author: David Delassus <david.jose.delassus@gmail.com>
 
+## REQUIREMENT
+
+* XML::RSS
+* Markdown :
+  * Digest::MD5
+
 ## USAGE
 
      $ perl generate.pl [config file]
