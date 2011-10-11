@@ -141,7 +141,7 @@ sub generate_index
 
      print ("Generating index...\n");
 
-     my @output = (&open_template ("tmpl.idx.top"), "<table id=\"plstblog_index\">\n");
+     my @output = (&open_template ("tmpl.idx.top"), "<table id=\"plstblog_index\"><thead><tr><th class=\"title\">Title</th><th class=\"lastedit\">Last edition</th></tr></thead><tbody>\n");
 
      @entries = reverse (@entries);
 
@@ -153,11 +153,11 @@ sub generate_index
 
           ($nfo{idx}, $nfo{title}) = split (/\./, $entry);
 
-          @output = (@output, "<tr><td><a href=\"".$PlStBlog::Config::conf{blogurl}."/post/".$nfo{idx}.".html\">".$nfo{title}."</a></td>".
-                    "<td>Last edition: ".$nfo{date}."</td></tr>\n");
+          @output = (@output, "<tr><td class=\"link\"><a href=\"".$PlStBlog::Config::conf{blogurl}."/post/".$nfo{idx}.".html\">".$nfo{title}."</a></td>".
+                    "<td class=\"lastedit\">".$nfo{date}."</td></tr>\n");
      }
 
-     @output = (@output, "</table>\n", &open_template ("tmpl.idx.bot"));
+     @output = (@output, "</tbody></table>\n", &open_template ("tmpl.idx.bot"));
 
      # write output to the file
      if ( ! -e $PlStBlog::Config::conf{"localpath"} )
