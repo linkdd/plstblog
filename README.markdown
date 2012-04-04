@@ -20,7 +20,7 @@ The configuration is pretty simple :
      blogurl=http://example.com/blog
      datefmt=%T %D
      localpath=/path/to/your/blog
-     localposts=/path/to/your/articles.markdown
+     localposts=/path/to/your/articles/
 
      tmpl.top=/path/to/your/header.template
      tmpl.bot=/path/to/your/footer.template
@@ -64,10 +64,13 @@ For articles templates, variables are :
 
 Exemple of generated index :
 
-     <ul>
-          <li><span class="link"><a href="@blogurl@/post/{%idx%}.html">{%title%}</a></span><span class="date">Last edition: @date according to datefmt@</span></li>
-          <li>...</li>
-     </ul>
+     <table id="plstblog_index">
+          <thead><tr><th class="title">Title</th><th class="lastedit">Last edition</th></tr></thead>
+          <tbody>
+               <tr><td class="link"><a href="@blogurl@/post/{%idx%}.html">{%title%}</a></td><td class="lastedit">@date according to datefmt@</td></tr>
+               ...
+          </tbody>
+     </table>
 
 ## Writing articles
 
