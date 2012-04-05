@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Plstblog by linkdd</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Plstblog</h1>
+<p>Staitc blog generator written in Perl</p>
+        <p class="view"><a href="https://github.com/linkdd/plstblog">View the Project on GitHub <small>linkdd/plstblog</small></a></p>
+        <ul>
+          <li><a href="https://github.com/linkdd/plstblog/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/linkdd/plstblog/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/linkdd/plstblog">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>plstblog is a static blog generator written in Perl.
+It is released under the BSD license.</p>
+
+<p>Author: David Delassus <a href="mailto:david.jose.delassus@gmail.com">david.jose.delassus@gmail.com</a></p>
+
+<h2>REQUIREMENT</h2>
+
+<ul>
+<li>XML::RSS</li>
+<li>Markdown :
+
+<ul>
+<li>Digest::MD5</li>
+</ul>
+</li>
+</ul><h2>USAGE</h2>
+
+<p><code>$ perl generate.pl [config file]</code></p>
+
+<h2>CONFIGURATION</h2>
+
+<p>The configuration is pretty simple :</p>
+
+<div class="highlight">
+<pre><span class="na">blogurl</span><span class="o">=</span><span class="s"><a href="http://example.com/blog">http://example.com/blog</a></span>
+<span class="na">datefmt</span><span class="o">=</span><span class="s">%T %D</span>
+<span class="na">localpath</span><span class="o">=</span><span class="s">/path/to/your/blog</span>
+<span class="na">localposts</span><span class="o">=</span><span class="s">/path/to/your/articles/</span>
+
+<span class="na">tmpl.top</span><span class="o">=</span><span class="s">/path/to/your/header.template</span>
+<span class="na">tmpl.bot</span><span class="o">=</span><span class="s">/path/to/your/footer.template</span>
+
+<span class="na">tmpl.idx.top</span><span class="o">=</span><span class="s">/path/to/your/index/header.template</span>
+<span class="na">tmpl.idx.bot</span><span class="o">=</span><span class="s">/path/to/your/index/footer.template</span>
+</pre>
+</div>
+
+
+<p>The configuration is save in : <code>$HOME/.plstblog.conf</code> or <code>./plstblog.conf</code>.</p>
+
+<h3>RSS 2.0</h3>
+
+<p>If you want generate a RSS 2.0 summary, just add this to your conf :</p>
+
+<div class="highlight">
+<pre><span class="na">rss</span><span class="o">=</span><span class="s">yes</span>
+<span class="na">rss.title</span><span class="o">=</span><span class="s">Your RSS title</span>
+<span class="na">rss.link</span><span class="o">=</span><span class="s"><a href="http://example.com/">http://example.com/</a></span>
+<span class="na">rss.lang</span><span class="o">=</span><span class="s">en</span>
+<span class="na">rss.description</span><span class="o">=</span><span class="s">Example of RSS summary</span>
+<span class="na">rss.author</span><span class="o">=</span><span class="s">author@example.com</span>
+</pre>
+</div>
+
+
+<h3>Templates</h3>
+
+<p>The templates are just HTML files with some special variables which are replaced by the generator.</p>
+
+<p>For all templates, variables are :</p>
+
+<ul>
+<li>
+<code>{%rsslink%}</code> : Link to the RSS feeds (to put in <code>&lt;head&gt;&lt;/head&gt;</code>).</li>
+<li>
+<code>{%rssicon%}</code> : Link to the RSS feeds (to put in <code>&lt;body&gt;&lt;/body&gt;</code>).</li>
+</ul><p>For articles templates, variables are :</p>
+
+<ul>
+<li>
+<code>{%title%}</code> : Article's title.</li>
+<li>
+<code>{%idx%}</code> : Index of the article.</li>
+<li>
+<code>{%ohidden}</code> : If there is no previous article, its value is : <code>hidden</code> (can be added in a <code>class=</code> attribute).</li>
+<li>
+<code>{%nhidden}</code> : Same as above but for next article.</li>
+<li>
+<code>{%otitle%}</code> : Title of the previous article.</li>
+<li>
+<code>{%oidx%}</code> : Index of the previous article.</li>
+<li>
+<code>{%ntitle%}</code> : Title of the next article.</li>
+<li>
+<code>{%nidx%}</code> : Index of the next article.</li>
+</ul><p>Exemple of generated index :</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;table</span> <span class="na">id=</span><span class="s">"plstblog_index"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;thead&gt;&lt;tr&gt;&lt;th</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/th&gt;&lt;th</span> <span class="na">class=</span><span class="s">"lastedit"</span><span class="nt">&gt;</span>Last edition<span class="nt">&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span>
+    <span class="nt">&lt;tbody&gt;</span>
+        <span class="nt">&lt;tr&gt;&lt;td</span> <span class="na">class=</span><span class="s">"link"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"{%blogurl%}/post/{%idx%}.html"</span><span class="nt">&gt;</span>{%title%}<span class="nt">&lt;/a&gt;&lt;/td&gt;&lt;td</span> <span class="na">class=</span><span class="s">"lastedit"</span><span class="nt">&gt;</span>{%date according to datefmt%}<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+        ...
+    <span class="nt">&lt;/tbody&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre>
+</div>
+
+
+<h2>Writing articles</h2>
+
+<p>Articles are written in <em>Markdown</em> syntax, put all of them into the folder <code>localposts</code> defined in your config file.
+The filename must be named <code>&lt;idx&gt;.&lt;title&gt;.markdown</code>.</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/linkdd">linkdd</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
